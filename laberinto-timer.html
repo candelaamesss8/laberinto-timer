@@ -1,0 +1,31 @@
+laberinto-timer
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Laberinto</title>
+</head>
+<body>
+  <h1 id="mensaje"></h1>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const modo = params.get("modo");
+
+    if (modo === "inicio") {
+      const inicio = Date.now();
+      localStorage.setItem("inicioLaberinto", inicio);
+      document.getElementById("mensaje").textContent = "⏱️ ¡Cronómetro iniciado! Entra al laberinto.";
+    } else if (modo === "fin") {
+      const inicio = localStorage.getItem("inicioLaberinto");
+      if (inicio) {
+        const fin = Date.now();
+        const duracion = Math.floor((fin - inicio) / 1000);
+        document.getElementById("mensaje").textContent = `🎉 ¡Has tardado ${duracion} segundos en completar el laberinto!`;
+      } else {
+        document.getElementById("mensaje").textContent = "⚠️ No se encontró el tiempo de inicio. Escanea primero el QR de entrada.";
+      }
+    } else {
+      document.getElementById("mensaje").textContent = "QR no válido. Revisa el enlace.";
+    }
+  </script>
+</body>
+</html>
